@@ -1,0 +1,28 @@
+module Click_LED_Driver5_pwm
+
+include Click_LED_Driver5_types
+sub function  leddriver5_pwmInit(dim freq as uint16_t) as uint32_t 
+sub procedure leddriver5_pwmSetDuty(dim duty as uint16_t) 
+sub procedure leddriver5_pwmStart() 
+sub procedure leddriver5_pwmStop() 
+
+implements
+
+sub function  leddriver5_pwmInit(dim freq as uint16_t) as uint32_t 
+    PWM2_Init(5000) 
+    result = 0 
+end sub
+
+sub procedure leddriver5_pwmSetDuty(dim duty as uint16_t) 
+    PWM2_Set_Duty(duty) 
+end sub
+
+sub procedure leddriver5_pwmStart() 
+    PWM2_Start() 
+end sub
+
+sub procedure leddriver5_pwmStop() 
+    PWM2_Stop() 
+end sub
+
+end.

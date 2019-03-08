@@ -1,0 +1,5 @@
+unit Click_LED_Driver5_config;
+
+uses Click_LED_Driver5_types;
+
+end.

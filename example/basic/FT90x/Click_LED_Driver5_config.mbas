@@ -1,0 +1,4 @@
+module Click_LED_Driver5_config
+
+include Click_LED_Driver5_types
+end.

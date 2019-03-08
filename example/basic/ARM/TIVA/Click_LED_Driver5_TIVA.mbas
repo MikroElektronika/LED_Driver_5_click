@@ -1,0 +1,66 @@
+'
+'Example for LED_Driver5 Click
+'
+'    Date          : okt 2018.
+'    Author        : Katarina Perendic
+'
+'Test configuration TIVA :
+'    
+'    MCU              : TM4C129XNCZAD
+'    Dev. Board       : EasyMx PRO v7 for TIVA ARM
+'    ARM Compiler ver : v6.0.0.0
+'
+'---
+'
+'Description :
+'
+'The application is composed of three sections :
+'
+'- System Initialization - Sets PWM pin as OUTPUT 
+'- Application Initialization - Initialization driver init and pwm init
+'- Application Task - (code snippet) - Controls the brightness of the LED using PWM
+'
+'
+program Click_LED_Driver5_TIVA
+
+include Click_LED_Driver5_types
+include Click_LED_Driver5_config
+include Click_LED_Driver5_pwm
+dim
+    _dutyCycle as uint16_t 
+    _frequency as uint16_t 
+    
+sub procedure systemInit() 
+    mikrobus_gpioInit(_MIKROBUS1, _MIKROBUS_PWM_PIN, _GPIO_OUTPUT) 
+    Delay_ms(100) 
+end sub
+
+sub procedure applicationInit() 
+    leddriver5_gpioDriverInit(T_LEDDRIVER5_P(@_MIKROBUS1_GPIO)) 
+    leddriver5_pwmInit(_frequency) 
+    leddriver5_pwmSetDuty(_dutyCycle) 
+    leddriver5_pwmStart() 
+    Delay_100ms() 
+end sub
+
+sub procedure applicationTask() 
+    _dutyCycle = _dutyCycle + 250 
+    leddriver5_pwmSetDuty(_dutyCycle) 
+    if (_dutyCycle > 10000) then 
+        _dutyCycle = 0 
+        leddriver5_pwmSetDuty(_dutyCycle) 
+        Delay_ms(2000) 
+    end if
+    Delay_ms(100) 
+end sub
+
+main :
+    _dutyCycle = 1000
+    _frequency = 5000
+
+    systemInit() 
+    applicationInit() 
+    while (1) 
+        applicationTask() 
+    wend
+end.

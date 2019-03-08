@@ -1,0 +1,35 @@
+unit Click_LED_Driver5_pwm;
+
+uses Click_LED_Driver5_types;
+
+function  leddriver5_pwmInit(freq : uint16_t) :  uint32_t; 
+procedure leddriver5_pwmSetDuty(duty : uint16_t); 
+procedure leddriver5_pwmStart(); 
+procedure leddriver5_pwmStop(); 
+
+implementation
+
+function  leddriver5_pwmInit(freq : uint16_t) :  uint32_t; 
+var
+    pwmPeriod : uint32_t; 
+begin
+    pwmPeriod := PWM_TIM5_Init(freq); 
+    result := pwmPeriod; 
+end;
+
+procedure leddriver5_pwmSetDuty(duty : uint16_t); 
+begin
+    PWM_TIM5_Set_Duty(duty, _PWM_NON_INVERTED, _PWM_CHANNEL1); 
+end;
+
+procedure leddriver5_pwmStart(); 
+begin
+    PWM_TIM5_Start(_PWM_CHANNEL1, @_GPIO_MODULE_TIM5_CH1_PA0); 
+end;
+
+procedure leddriver5_pwmStop(); 
+begin
+    PWM_TIM5_Stop(_PWM_CHANNEL1); 
+end;
+
+end.
